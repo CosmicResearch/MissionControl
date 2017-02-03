@@ -6,8 +6,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->mapWindow = new MapWindow(this);
+    this->mapWindow->show();
     this->arduino = new Arduino();
     connect(arduino, SIGNAL(dataRead(float)), this, SLOT(receiveData(float)));
+    connect(this, SIGNAL(updateLocation(double,double)), mapWindow, SLOT(updateLocation(double,double)));
     connectToArduino();
 }
 
@@ -34,8 +37,7 @@ MainWindow::~MainWindow()
 void MainWindow::receiveData(float dataReceived) { //TODO
     double data = (double) dataReceived;
     emit updateAltitude(data);
-    emit updateLatitude(data);
-    emit updateLongitude(data);
+    emit updateLocation(data, data);
     emit updateVelocity(data);
     emit updatePitch(data);
     emit updateRoll(data);
