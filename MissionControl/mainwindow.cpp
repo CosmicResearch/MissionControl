@@ -7,11 +7,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->mapWindow = new MapWindow(this);
-    this->mapWindow->show();
     this->arduino = new Arduino();
     connect(arduino, SIGNAL(dataRead(float)), this, SLOT(receiveData(float)));
     connect(this, SIGNAL(updateLocation(double,double)), mapWindow, SLOT(updateLocation(double,double)));
     connectToArduino();
+    this->mapWindow->show();
 }
 
 void MainWindow::connectToArduino() {

@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Mission Control</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
-     <widget class="QWebEngineView" name="webEngineView">
-      <property name="url">
+     <widget class="QWebEngineView" name="webEngineView" native="true">
+      <property name="url" stdset="0">
        <url>
         <string>about:blank</string>
        </url>
