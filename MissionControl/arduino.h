@@ -25,14 +25,17 @@ public slots:
 
 signals:
 
-    void dataRead(float);
+    void packet1Read(double, double, double, double, double, double);
+    void packet2Read(double, double, double, double, double);
+    void messageRead(QString);
 
 private:
     QSerialPort* arduino_port;
     bool isOpen = false;
 
     void processLine(QByteArray data);
-    float byteArrayToFloat(QByteArray data);
+    QVector<double> unpack(QByteArray packet, int elements);
+    double byteArrayToDouble(QByteArray data);
 };
 
 #endif // ARDUINO_H

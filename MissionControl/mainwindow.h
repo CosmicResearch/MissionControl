@@ -4,8 +4,12 @@
 #include <QObject>
 #include <QMainWindow>
 #include <QMessageBox>
-#include "mapwindow.h"
+#include <QtWebEngineWidgets>
+#include <QWebEngineView>
+#include <QtPositioning>
 #include "arduino.h"
+#include <QLineSeries>
+#include <QChart>
 
 namespace Ui {
 class MainWindow;
@@ -24,20 +28,35 @@ public:
 signals:
 
     void updateAltitude(double);
-    void updateLocation(double, double);
+    void updateLatitude(double);
+    void updateLongitude(double);
     void updateVelocity(double);
     void updatePitch(double);
     void updateRoll(double);
     void updateYaw(double);
+    void updateTemperature(double);
 
 public slots:
 
-    void receiveData(float data);
+    void receivePacket1(double time, double pressure, double temperature, double roll, double pitch, double yaw);
+    void receivePacket2(double time, double altitude, double velocity, double latitude, double longitude);
+    void positionUpdated(QGeoPositionInfo info);
 
 private:
     Ui::MainWindow *ui;
     Arduino* arduino;
-    MapWindow* mapWindow;
+    QVector<double> time_altitude, altitude;
+    QVector<double> time_velocity, velocity;
+    double maxAltitude = 100;
+    double maxTime = 100;
+    double maxVelocity = 10;
+    double firstAltitudeTime;
+    double firstVelocityTime;
+    void newLocation(double latitude, double longitude);
+    void newAltitude(double time, double altitude);
+    void newVelocity(double time, double velocity);
+    bool firstAltitude = true;
+    bool firstVelocity = true;
 };
 
 #endif // MAINWINDOW_H

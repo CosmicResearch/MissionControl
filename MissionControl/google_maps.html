@@ -11,8 +11,23 @@
       src="http://maps.googleapis.com/maps/api/js?sensor=false">
     </script>
     <script type="text/javascript">
+      var pinColor = "FE7569";
+      var pinColor2 = "335FFE";
+      var pinImage1 = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+            new google.maps.Size(21, 34),
+            new google.maps.Point(0,0),
+            new google.maps.Point(10, 34));
+      var pinImage2 = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor2,
+            new google.maps.Size(21, 34),
+            new google.maps.Point(0,0),
+            new google.maps.Point(10, 34));
+      var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+            new google.maps.Size(40, 37),
+            new google.maps.Point(0, 0),
+            new google.maps.Point(12, 35));
       var map;
       var marker;
+      var position;
 
       function initialize() {
         var myLatLng = {lat: -34.397, lng: 150.644};
@@ -26,7 +41,16 @@
         marker = new google.maps.Marker({
             position: myLatLng,
             map: map,
-            title: 'Resnik'
+            title: 'Resnik',
+            icon: pinImage1,
+            shadow: pinShadow
+        });
+        position = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: 'You',
+            icon: pinImage2,
+            shadow: pinShadow
         });
       }
     </script>

@@ -47,27 +47,45 @@ void Arduino::read() {
     }
 }
 
-void Arduino::processLine(QByteArray data) { //TODO
-    float f = byteArrayToFloat(data);
-    emit this->dataRead(f);
-}
-
-float Arduino::byteArrayToFloat(QByteArray data) {
+void Arduino::processLine(QByteArray data) {
     int i = 0;
     while (i < data.size() and not (data.at(i) =='\r')) {
         ++i;
     }
     data.truncate(i);
-    QByteArray flipData = QByteArray();
-    for (int i = data.size() - 1; i >= 0; --i) {
-        flipData[data.size() - i -1] = data[i];
+    if (data.at(0) == (char)'0') {
+        QByteArray packet = data.mid(1, data.size()-2);
+        QVector<double> unpacked = unpack(packet, 6);
+        emit packet1Read(unpacked[0], unpacked[1], unpacked[2], unpacked[3], unpacked[4], unpacked[5]);
     }
-    data = flipData;
+    else if(data.at(0) == (char)'1') {
+        QByteArray packet = data.mid(1, data.size()-2);
+        QVector<double> unpacked = unpack(packet, 5);
+        emit packet2Read(unpacked[0], unpacked[1], unpacked[2], unpacked[3], unpacked[4]);
+    }
+    else {
+        emit messageRead(QString(data));
+    }
+}
+
+QVector<double> Arduino::unpack(QByteArray packet, int elements) {
+    QVector<double> res = QVector<double>(elements);
+    for (int i = 0; i < elements; ++i) {
+        res[i] = byteArrayToDouble(packet.mid(8*i, 8));
+    }
+    return res;
+}
+
+double Arduino::byteArrayToDouble(QByteArray data) {
     const unsigned char* charData = (const unsigned char*) data.toStdString().c_str();
-    float output;
-    *((uchar*)(&output) + 3) = charData[0];
-    *((uchar*)(&output) + 2) = charData[1];
-    *((uchar*)(&output) + 1) = charData[2];
-    *((uchar*)(&output) + 0) = charData[3];
+    double output;
+    *((uchar*)(&output) + 7) = charData[7];
+    *((uchar*)(&output) + 6) = charData[6];
+    *((uchar*)(&output) + 5) = charData[5];
+    *((uchar*)(&output) + 4) = charData[4];
+    *((uchar*)(&output) + 3) = charData[3];
+    *((uchar*)(&output) + 2) = charData[2];
+    *((uchar*)(&output) + 1) = charData[1];
+    *((uchar*)(&output) + 0) = charData[0];
     return output;
 }

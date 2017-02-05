@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui serialport webengine webenginewidgets network
+QT       += core gui serialport webengine webenginewidgets network positioning charts
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = MissionControl
 TEMPLATE = app
@@ -15,16 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     arduino.cpp \
-    data.cpp \
-    mapwindow.cpp
+    qcustomplot.cpp
 
 HEADERS  += mainwindow.h \
     arduino.h \
-    data.h \
-    mapwindow.h
+    qcustomplot.h
 
-FORMS    += mainwindow.ui \
-    mapwindow.ui
+FORMS    += mainwindow.ui
 
 DISTFILES += \
     google_maps.html \
