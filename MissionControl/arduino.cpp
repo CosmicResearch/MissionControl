@@ -14,7 +14,7 @@ bool Arduino::open(quint16 vendorID, quint16 productID) {
     QSerialPortInfo info;
     QList<QSerialPortInfo> list = info.availablePorts();
     foreach (info, list) {
-        if (info.productIdentifier() == productID and info.vendorIdentifier() == vendorID) {
+        if ((info.productIdentifier() == productID) && (info.vendorIdentifier() == vendorID)) {
             arduino_port->setPort(info);
         }
     }
@@ -49,7 +49,7 @@ void Arduino::read() {
 
 void Arduino::processLine(QByteArray data) {
     int i = 0;
-    while (i < data.size() and not (data.at(i) =='\r')) {
+    while ((i < data.size()) && !(data.at(i) =='\r')) {
         ++i;
     }
     data.truncate(i);

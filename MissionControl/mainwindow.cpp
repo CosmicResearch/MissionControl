@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::connectToArduino() {
-    if(not this->arduino->open(Arduino::ARDUINO_VENDOR_ID, Arduino::ARDUINO_UNO_PRODUCT_ID)) {
+    if(!this->arduino->open(Arduino::ARDUINO_VENDOR_ID, Arduino::ARDUINO_UNO_PRODUCT_ID)) {
         int reply = QMessageBox::question(this, "Arduino not found!",
                                           "No Arduino has been detected, please connect one to a USB port and click \'Retry\'",
                                           QMessageBox::Retry, QMessageBox::Cancel);
