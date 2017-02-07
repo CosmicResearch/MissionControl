@@ -299,6 +299,9 @@
           <property name="frameShape">
            <enum>QFrame::NoFrame</enum>
           </property>
+          <property name="digitCount">
+           <number>15</number>
+          </property>
           <property name="segmentStyle">
            <enum>QLCDNumber::Flat</enum>
           </property>
@@ -314,6 +317,9 @@
           </property>
           <property name="frameShape">
            <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="digitCount">
+           <number>15</number>
           </property>
           <property name="segmentStyle">
            <enum>QLCDNumber::Flat</enum>

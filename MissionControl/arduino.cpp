@@ -53,41 +53,42 @@ void Arduino::processLine(QByteArray data) {
         ++i;
     }
     data.truncate(i);
-    if (data.at(0) == (char)'0') {
-        QByteArray packet = data.mid(1, data.size()-2);
-        QVector<double> unpacked = unpack(packet, 6);
-        emit packet1Read(unpacked[0], unpacked[1], unpacked[2], unpacked[3], unpacked[4], unpacked[5]);
-    }
-    else if(data.at(0) == (char)'1') {
-        QByteArray packet = data.mid(1, data.size()-2);
-        QVector<double> unpacked = unpack(packet, 5);
-        emit packet2Read(unpacked[0], unpacked[1], unpacked[2], unpacked[3], unpacked[4]);
-    }
-    else {
-        emit messageRead(QString(data));
+    if (data.size() > 0) {
+        if (data.at(0) == (char)'0') {
+            QByteArray packet = data.right(data.size()-1);
+            QVector<double> unpacked = unpack(packet, 6);
+            emit packet1Read(unpacked[0], unpacked[1], unpacked[2], unpacked[3], unpacked[4], unpacked[5]);
+        }
+        else if(data.at(0) == (char)'1') {
+            QByteArray packet = data.right(data.size()-1);
+            QVector<double> unpacked = unpack(packet, 5);
+            emit packet2Read(unpacked[0], unpacked[1], unpacked[2], unpacked[3], unpacked[4]);
+        }
+        else {
+            emit messageRead(QString(data));
+        }
     }
 }
 
 QVector<double> Arduino::unpack(QByteArray packet, int elements) {
     QVector<double> res = QVector<double>(elements);
     for (int i = 0; i < elements; ++i) {
-        res[i] = byteArrayToDouble(packet.mid(8*i, 8));
+        res[i] = byteArrayToDouble(packet.mid(4*i, 4));
     }
     return res;
 }
 
 double Arduino::byteArrayToDouble(QByteArray data) {
-    const unsigned char* charData = (const unsigned char*) data.toStdString().c_str();
-    double output;
-    *((uchar*)(&output) + 7) = charData[7];
-    *((uchar*)(&output) + 6) = charData[6];
-    *((uchar*)(&output) + 5) = charData[5];
-    *((uchar*)(&output) + 4) = charData[4];
-    *((uchar*)(&output) + 3) = charData[3];
-    *((uchar*)(&output) + 2) = charData[2];
-    *((uchar*)(&output) + 1) = charData[1];
-    *((uchar*)(&output) + 0) = charData[0];
-    return output;
+    float output;
+    *((uchar*)(&output) + 7) = data[7];
+    *((uchar*)(&output) + 6) = data[6];
+    *((uchar*)(&output) + 5) = data[5];
+    *((uchar*)(&output) + 4) = data[4];
+    *((uchar*)(&output) + 3) = data[3];
+    *((uchar*)(&output) + 2) = data[2];
+    *((uchar*)(&output) + 1) = data[1];
+    *((uchar*)(&output) + 0) = data[0];
+    return (double)output;
 }
 
 void Arduino::sendMessage(QString message) {

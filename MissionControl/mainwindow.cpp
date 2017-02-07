@@ -80,45 +80,41 @@ void MainWindow::newLocation(double latitude, double longitude) {
 
 void MainWindow::positionUpdated(QGeoPositionInfo info) {
     QString str = QString("var newLoc = new google.maps.LatLng(%1, %2); ").arg(info.coordinate().latitude()).arg(info.coordinate().longitude()) + QString("position.setPosition(newLoc);");
+    if (firstLocation) {
+        firstLocation = false;
+        str += QString("map.setCenter(newLoc);");
+    }
     ui->webEngineView->page()->runJavaScript(str);
 }
 
 void MainWindow::newAltitude(double time, double altitude) {
-    if (firstAltitude) {
-        firstAltitudeTime = time;
-        firstAltitude = false;
-    }
-    time_altitude.push_back(time-firstAltitudeTime);
+    time_altitude.push_back(time);
     this->altitude.push_back(altitude);
-    ui->altitudePlot->graph(0)->setData(time_altitude, this->altitude);
+    ui->altitudePlot->graph(0)->setData(time_altitude, this->altitude, false);
     if (altitude > maxAltitude) {
         maxAltitude = altitude;
         ui->altitudePlot->yAxis->setRange(0, altitude);
     }
     if (time > maxTime) {
         maxTime = time;
-        ui->altitudePlot->xAxis->setRange(0, time);
     }
+    ui->altitudePlot->xAxis->setRange(0, maxTime);
     ui->altitudePlot->replot();
     emit updateAltitude(altitude);
 }
 
 void MainWindow::newVelocity(double time, double velocity) {
-    if (firstVelocity) {
-        firstVelocityTime = time;
-        firstVelocity = false;
-    }
-    time_velocity.push_back(time-firstVelocityTime);
+    time_velocity.push_back(time);
     this->velocity.push_back(velocity);
-    ui->velocityPlot->graph(0)->setData(time_velocity, this->velocity);
+    ui->velocityPlot->graph(0)->setData(time_velocity, this->velocity, false);
     if (velocity > maxVelocity) {
         maxVelocity = velocity;
         ui->velocityPlot->yAxis->setRange(0, velocity);
     }
     if (time > maxTime) {
         maxTime = time;
-        ui->altitudePlot->xAxis->setRange(0, time);
     }
+    ui->velocityPlot->xAxis->setRange(0, maxTime);
     ui->velocityPlot->replot();
     emit updateVelocity(velocity);
 }

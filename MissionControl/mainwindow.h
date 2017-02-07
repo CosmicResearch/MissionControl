@@ -48,16 +48,13 @@ private:
     Arduino* arduino;
     QVector<double> time_altitude, altitude;
     QVector<double> time_velocity, velocity;
-    double maxAltitude = 100;
-    double maxTime = 100;
+    double maxAltitude = 10;
+    double maxTime = 10;
     double maxVelocity = 10;
-    double firstAltitudeTime;
-    double firstVelocityTime;
     void newLocation(double latitude, double longitude);
     void newAltitude(double time, double altitude);
     void newVelocity(double time, double velocity);
-    bool firstAltitude = true;
-    bool firstVelocity = true;
+    bool firstLocation = true;
 };
 
 #endif // MAINWINDOW_H
