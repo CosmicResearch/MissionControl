@@ -18,6 +18,7 @@ public:
     bool open(QString port);
     static const quint16 ARDUINO_VENDOR_ID = 9025;
     static const quint16 ARDUINO_UNO_PRODUCT_ID = 579;
+    void sendMessage(QString message);
 
 public slots:
 

@@ -41,6 +41,7 @@ public slots:
     void receivePacket1(double time, double pressure, double temperature, double roll, double pitch, double yaw);
     void receivePacket2(double time, double altitude, double velocity, double latitude, double longitude);
     void positionUpdated(QGeoPositionInfo info);
+    void echo();
 
 private:
     Ui::MainWindow *ui;

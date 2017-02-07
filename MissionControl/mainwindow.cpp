@@ -122,3 +122,7 @@ void MainWindow::newVelocity(double time, double velocity) {
     ui->velocityPlot->replot();
     emit updateVelocity(velocity);
 }
+
+void MainWindow::echo() {
+    this->arduino->sendMessage("ECHO");
+}

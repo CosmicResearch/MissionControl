@@ -255,6 +255,13 @@
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>ECHO</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
@@ -436,8 +443,8 @@
      <y>573</y>
     </hint>
     <hint type="destinationlabel">
-     <x>194</x>
-     <y>552</y>
+     <x>235</x>
+     <y>523</y>
     </hint>
    </hints>
   </connection>
@@ -473,6 +480,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>echo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>184</x>
+     <y>551</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>546</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>updateAltitude(double)</signal>
@@ -484,5 +507,6 @@
   <signal>updateLatitude(double)</signal>
   <signal>updateLongitude(double)</signal>
   <signal>newMessage(QString)</signal>
+  <slot>echo()</slot>
  </slots>
 </ui>

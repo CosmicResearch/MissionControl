@@ -89,3 +89,8 @@ double Arduino::byteArrayToDouble(QByteArray data) {
     *((uchar*)(&output) + 0) = charData[0];
     return output;
 }
+
+void Arduino::sendMessage(QString message) {
+    message = message.append("\n");
+    this->arduino_port->write(message.toUtf8());
+}
