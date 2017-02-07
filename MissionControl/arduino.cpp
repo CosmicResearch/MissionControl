@@ -73,7 +73,7 @@ void Arduino::processLine(QByteArray data) {
 QVector<double> Arduino::unpack(QByteArray packet, int elements) {
     QVector<double> res = QVector<double>(elements);
     for (int i = 0; i < elements; ++i) {
-        res[i] = byteArrayToDouble(packet.mid(4*i, 4));
+        res[i] = byteArrayToDouble(packet.mid(8*i, 8));
     }
     return res;
 }
