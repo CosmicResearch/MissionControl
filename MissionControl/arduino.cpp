@@ -79,7 +79,7 @@ QVector<double> Arduino::unpack(QByteArray packet, int elements) {
 }
 
 double Arduino::byteArrayToDouble(QByteArray data) {
-    float output;
+    double output;
     *((uchar*)(&output) + 7) = data[7];
     *((uchar*)(&output) + 6) = data[6];
     *((uchar*)(&output) + 5) = data[5];
@@ -88,7 +88,7 @@ double Arduino::byteArrayToDouble(QByteArray data) {
     *((uchar*)(&output) + 2) = data[2];
     *((uchar*)(&output) + 1) = data[1];
     *((uchar*)(&output) + 0) = data[0];
-    return (double)output;
+    return output;
 }
 
 void Arduino::sendMessage(QString message) {

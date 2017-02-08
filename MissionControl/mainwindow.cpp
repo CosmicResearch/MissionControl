@@ -68,6 +68,7 @@ void MainWindow::receivePacket2(double time, double altitude, double velocity, d
     newAltitude(time, altitude);
     newLocation(latitude, longitude);
     newVelocity(time, velocity);
+    qDebug() << "sources: " << QGeoPositionInfoSource::availableSources();
 }
 
 void MainWindow::newLocation(double latitude, double longitude) {
