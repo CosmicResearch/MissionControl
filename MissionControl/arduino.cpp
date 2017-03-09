@@ -49,19 +49,22 @@ void Arduino::read() {
 
 void Arduino::processLine(QByteArray data) {
     int i = 0;
-    while ((i < data.size()) && !(data.at(i) =='\r')) {
+    while ((i < data.size()) && !(data.at(i) =='\n')) {
         ++i;
     }
     data.truncate(i);
+    qDebug() << data;
     if (data.size() > 0) {
         if (data.at(0) == (char)'0') {
-            QByteArray packet = data.right(data.size()-1);
+            QByteArray packet = data.right(6*8);
             QVector<double> unpacked = unpack(packet, 6);
+            qDebug() << "packet 1: " << data << "\n unpacket1: " << unpacked;
             emit packet1Read(unpacked[0], unpacked[1], unpacked[2], unpacked[3], unpacked[4], unpacked[5]);
         }
         else if(data.at(0) == (char)'1') {
-            QByteArray packet = data.right(data.size()-1);
+            QByteArray packet = data.right(5*8);
             QVector<double> unpacked = unpack(packet, 5);
+            qDebug() << "packet 2: " << data << "\n unpacked2: " << unpacked;
             emit packet2Read(unpacked[0], unpacked[1], unpacked[2], unpacked[3], unpacked[4]);
         }
         else {
